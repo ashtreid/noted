@@ -1,27 +1,16 @@
 const fs = require('fs');
 const util = require('util');
-// const { deflateSync } = require('zlib');
-// const { param } = require('../routes/notes');
 
 const readFromFile = util.promisify(fs.readFile);
 
-/**
-*   @param {string} destination 
-*   @param {object} content
-*   @returns {void}
-*/
-
-const writeToFile = (destination, content) => 
-    fs.writeFile(destination, JSON.stringify(content, null, 4), (err) => 
-        err ? console.error(err) : console.info(`\nWritten to ${destination}`)
+// Adds content to the desired file.
+const writeToFile = (file, content) => 
+    fs.writeFile(file, JSON.stringify(content, null, 4), (err) => 
+        err ? console.error(err) : console.info(`\nWritten to ${file}`)
     );
 
-/**
- *  @param {object} content
- *  @param {string} file 
- *  @returns {void} 
- */
-
+// Reads the file, parses it, and then sends it to `writeToFile`
+// to add it to the intended file.
 const readAndAppend = (content, file) => {
     fs.readFile(file, 'utf8', (err, data) => {
         if (err) {
